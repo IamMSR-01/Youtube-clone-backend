@@ -146,7 +146,10 @@ const publishAVideo = asyncHandler(async (req, res) => {
 
   // Upload files to Cloudinary
   const videoUpload = await uploadOnCloudinary(videoLocalPath, "videos");
-  const thumbnailUpload = await uploadOnCloudinary(thumbnailLocalPath, "thumbnails");
+  const thumbnailUpload = await uploadOnCloudinary(
+    thumbnailLocalPath,
+    "thumbnails"
+  );
 
   if (!videoUpload?.url || !thumbnailUpload?.url) {
     throw new ApiError(400, "Error while uploading video or thumbnail");
@@ -167,15 +170,14 @@ const publishAVideo = asyncHandler(async (req, res) => {
   if (!video) {
     throw new ApiError(400, "Error while uploading video");
   }
-  
+
   return res
     .status(201)
     .json(new ApiResponse(201, { video }, "Video published successfully"));
 });
 
-
- // Fetch a video by ID and increment view count.
- const getVideoById = asyncHandler(async (req, res) => {
+// Fetch a video by ID and increment view count.
+const getVideoById = asyncHandler(async (req, res) => {
   const { videoId } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(videoId)) {
@@ -221,7 +223,6 @@ const publishAVideo = asyncHandler(async (req, res) => {
     .status(200)
     .json(new ApiResponse(200, video[0], "Video fetched successfully"));
 });
-
 
 // Delete a video by ID.
 const deleteVideo = asyncHandler(async (req, res) => {
@@ -278,10 +279,51 @@ const togglePublishStatus = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, video, "Publish status toggled successfully"));
 });
 
+const updateVideo = asyncHandler(async (req, res) => {
+  const { videoId } = req.params;
+  const { title, description } = req.body;
+  const userId = req.user._id;
+
+  if (!mongoose.Types.ObjectId.isValid(videoId)) {
+    throw new ApiError(404, "Invalid video ID");
+  }
+
+  const video = await Video.findById(videoId);
+
+  if (!video) {
+    throw new ApiError(404, "Video not found");
+  }
+
+  if (video.owner.toString() !== userId.toString()) {
+    throw new ApiError(403, "Unauthorized to update this video");
+  }
+
+  let updatedThumbnail = video.thumbnail;
+  if (req.file) {
+    const uploadedThumbnail = await uploadOnCloudinary(
+      req.file.path,
+      "thumbnails"
+    );
+    if (uploadedThumbnail?.url) {
+      updatedThumbnail = uploadedThumbnail.url;
+    }
+  }
+
+  video.title = title || video.title;
+  video.description = description || video.description;
+  video.thumbnail = updatedThumbnail || video.thumbnail;
+  await video.save();
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, video, "Video updated successfully"));
+});
+
 export {
   getAllVideos,
   publishAVideo,
   getVideoById,
   deleteVideo,
   togglePublishStatus,
+  updateVideo,
 };
