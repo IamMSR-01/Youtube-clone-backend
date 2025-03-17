@@ -134,8 +134,6 @@ const getChannelVideos = asyncHandler(async (req, res) => {
       {
         totalVideos: videos.length,
         currentPage: pageNumber,
-        totalPages: Math.ceil(videos.length / limitNumber),
-
         videos,
       },
       "Channel videos retrieved successfully"
