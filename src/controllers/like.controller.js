@@ -32,7 +32,7 @@ const toggleVideoLike = asyncHandler(async (req, res) => {
 
 const toggleCommentLike = asyncHandler(async (req, res) => {
   const { commentId } = req.params;
-  const userId = res.user._id;
+  const userId = req.user._id;
 
   if (!isValidObjectId(commentId)) {
     throw new ApiError(400, "Invalid or missing comment");

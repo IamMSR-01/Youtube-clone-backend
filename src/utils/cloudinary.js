@@ -29,7 +29,7 @@ const deleteFromCloudinary = async (fileUrl) => {
     const publicId = fileUrl.split("/").pop().split(".")[0];
 
     // Delete file from Cloudinary
-    await cloudinary.v2.uploader.destroy(publicId);
+    await cloudinary.uploader.destroy(publicId);
   } catch (error) {
     console.error("Cloudinary Delete Error:", error);
   }

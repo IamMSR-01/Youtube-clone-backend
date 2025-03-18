@@ -30,7 +30,6 @@ const registerUser = asyncHandler(async (req, res) => {
   const { fullName, username, email, password } = req.body;
 
   // validation check not empty
-
   if (
     [fullName, username, email, password].some((field) => field?.trim() === "")
   ) {
