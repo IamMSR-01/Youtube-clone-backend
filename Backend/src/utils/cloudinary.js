@@ -24,7 +24,7 @@ const uploadOnCloudinary = async (localFilePath) => {
 const deleteFromCloudinary = async (fileUrl) => {
   try {
     if (!fileUrl) return;
-
+ 
     // Extract public_id from Cloudinary URL
     const publicId = fileUrl.split("/").pop().split(".")[0];
 
