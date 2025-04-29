@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import API from "../utils/axios";
-import { useNavigate } from "react-router-dom";
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -11,7 +10,6 @@ function Register() {
     password: "",
   });
 
-  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -58,9 +56,9 @@ function Register() {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (token) {
-      window.location.href = "/";
-    }
+    // if (token) {
+    //   window.location.href = "/";
+    // }
   }, []);
 
   return (
