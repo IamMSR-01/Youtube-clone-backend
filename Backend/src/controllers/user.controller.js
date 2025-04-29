@@ -1,4 +1,4 @@
-import {asyncHandler} from "../utils/asyncHandler.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { User } from "../models/user.model.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
@@ -226,6 +226,14 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 // update password
 const changeCurrentPassword = asyncHandler(async (req, res) => {
   const { oldPassword, newPassword } = req.body;
+  
+  if (!oldPassword) {
+    throw new ApiError(400, "Old Password is required");
+  }
+
+  if (!newPassword) {
+    throw new ApiError(400, "New Password is required");
+  }
 
   const user = await User.findById(req.user?._id);
   const isPasswordCorrect = await user.isPasswordCorrect(oldPassword);
@@ -251,9 +259,9 @@ const getCurrentUser = asyncHandler(async (req, res) => {
 
 // update user fullname and email
 const updateAccountDetails = asyncHandler(async (req, res) => {
-  const { fullName, email } = req.body;
+  const { fullName, email, username } = req.body;
 
-  if (!fullName || !email) {
+  if (!fullName || !email || !username) {
     throw new ApiError(400, "All feilds are required");
   }
 
@@ -263,6 +271,7 @@ const updateAccountDetails = asyncHandler(async (req, res) => {
       $set: {
         fullName,
         email,
+        username: username.toLowerCase(),
       },
     },
     { new: true }
