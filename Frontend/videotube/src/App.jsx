@@ -11,13 +11,13 @@ function App() {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    // Check if user data is in localStorage
-    const userData = JSON.parse(localStorage.getItem("user"));
-    if (userData) {
-      dispatch(login(userData)); 
-    }
-  }, [dispatch]);
+  // useEffect(() => {
+  //   // Check if user data is in localStorage
+  //   const userData = JSON.parse(localStorage.getItem("user"));
+  //   if (userData) {
+  //     dispatch(login(userData)); 
+  //   }
+  // }, [dispatch]);
 
   return (
       <div>

@@ -9,6 +9,7 @@ import { RouterProvider } from "react-router-dom";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
+import UploadVideo from "./pages/UploadVideo";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
       {
         path: "/profile/:userId",
         element: <Profile />
+      },
+      {
+        path: "upload-video",
+        element: <UploadVideo />
       }
     ],
   },

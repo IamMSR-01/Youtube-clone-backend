@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../features/authSlice";
 import { UserCircle2, LogIn } from "lucide-react";
+import { IoMdAdd } from "react-icons/io";
 
 const Header = () => {
   const { user, isAuthenticated } = useSelector((state) => state.auth);
@@ -27,7 +28,15 @@ const Header = () => {
         </Link>
 
         {/* Navigation Links */}
-        <nav className="space-x-6 text-sm font-medium flex items-center">
+        <nav className="space-x-6 text-md font-medium flex items-center">
+        {isAuthenticated ? (
+          <>
+            <Link
+            to={"/upload-video"}
+            className="text-black px-2 pr-3 py-1 rounded bg-amber-500 flex justify-center items-center gap-2 hover:bg-amber-400 transition text-lg"
+            ><IoMdAdd className="text-2xl" /> Create</Link>
+          </>
+        ) : null}
           <Link to="/" className="hover:text-yellow-400 transition">
             Home
           </Link>
