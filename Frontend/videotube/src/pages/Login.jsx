@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { login } from "../features/authSlice"; 
 import API from "../utils/axios";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
-
-  const Navigate = useNavigate();
+  const dispatch = useDispatch(); 
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -17,23 +19,32 @@ function Login() {
       ...formData,
       [name]: value,
     });
-  }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await API.post("/users/login", formData);
+      const res = await API.post("/users/login", formData); 
       if (res.data.success === true) {
-        localStorage.setItem("token", res.data.token);
-        Navigate("/");
+        const userData = res.data.user; 
+        const token = res.data.token;
+
+        // Store token and user in localStorage
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(userData)); 
+
+        // Dispatch login action to Redux
+        dispatch(login(userData)); 
+
+        // Redirect to home page after successful login
+        navigate("/");
       } else {
         alert(res.data.message);
       }
     } catch (error) {
       console.log(error);
     }
-  }
-
+  };
 
   return (
     <div className="h-screen mx-auto flex justify-center items-center">
@@ -41,10 +52,7 @@ function Login() {
         <h1 className="flex justify-center items-center text-black mb-6 text-4xl font-bold">
           Login On VideoTude
         </h1>
-        <form
-        action={""}
-        onSubmit={handleSubmit}
-        >
+        <form onSubmit={handleSubmit}>
           <div className="form-group flex flex-col gap-2 text-black text-xl">
             <label htmlFor="email">Email</label>
             <input

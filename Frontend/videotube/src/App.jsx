@@ -5,22 +5,19 @@ import "./index.css";
 import Header from "./components/Header.jsx";
 import Footer from "./components/Footer.jsx";
 import { Outlet } from "react-router-dom";
+import { login } from "./features/authSlice"; // Import the login action
 
 function App() {
-  const [loading, setLoading] = useState(true);
+
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   authSlice.getCurrentUser()
-  //     .then((userData) => {
-  //       if (userData) {
-  //         dispatch(login({ userData }))
-  //       } else {
-  //         dispatch(logout())
-  //       }
-  //     })
-  //     .finally(() => setLoading(false))
-  // }, [])
+  useEffect(() => {
+    // Check if user data is in localStorage
+    const userData = JSON.parse(localStorage.getItem("user"));
+    if (userData) {
+      dispatch(login(userData)); 
+    }
+  }, [dispatch]);
 
   return (
       <div>

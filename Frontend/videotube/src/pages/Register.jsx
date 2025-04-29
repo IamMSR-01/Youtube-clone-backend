@@ -42,7 +42,6 @@ function Register() {
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log("res", res.data);
       if (res.data.status === "success") {
         localStorage.setItem("token", res.data.token);
         navigate("/");
@@ -56,9 +55,9 @@ function Register() {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (token) {
-      window.location.href = "/";
-    }
+    // if (token) {
+    //   window.location.href = "/";
+    // }
   }, []);
 
   return (
