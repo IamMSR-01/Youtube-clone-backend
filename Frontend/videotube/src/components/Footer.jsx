@@ -21,12 +21,12 @@ function Footer() {
           </div>
           <div>
             <ul>
-              <li className='text-gray-400 hover:text-yellow-500 cursor-pointer text-lg font-semibold'>
+              <li className='text-gray-400 hover:text-yellow-500 cursor-pointer text-lg font-semibold flex items-center gap-2'>
               <FaFacebookSquare />
                 Facebook</li>
-              <li className='text-gray-400 hover:text-yellow-500 cursor-pointer text-lg font-semibold'><FaTwitterSquare /> Twitter</li>
-              <li className='text-gray-400 hover:text-yellow-500 cursor-pointer text-lg font-semibold'><FaInstagram /> Instagram</li>
-              <li className='text-gray-400 hover:text-yellow-500 cursor-pointer text-lg font-semibold'> <FaLinkedin /> LinkedIn</li>
+              <li className='text-gray-400 hover:text-yellow-500 flex items-center gap-2 cursor-pointer text-lg font-semibold'><FaTwitterSquare /> Twitter</li>
+              <li className='text-gray-400 hover:text-yellow-500 flex items-center gap-2 cursor-pointer text-lg font-semibold'><FaInstagram /> Instagram</li>
+              <li className='text-gray-400 hover:text-yellow-500 flex items-center gap-2 cursor-pointer text-lg font-semibold'> <FaLinkedin /> LinkedIn</li>
             </ul>
           </div>
           
